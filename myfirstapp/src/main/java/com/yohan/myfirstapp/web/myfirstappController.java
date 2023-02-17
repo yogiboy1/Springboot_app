@@ -102,4 +102,9 @@ public class myfirstappController {
 		
 	}
 	
+	@GetMapping("/home")
+	public String hoString() {
+		return "HOME";
+	}
+	
 }
