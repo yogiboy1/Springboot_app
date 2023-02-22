@@ -16,8 +16,8 @@ public class securityconfig {
 
 	@Bean
 	public SecurityFilterChain mySecurityFilterChain(HttpSecurity http) throws Exception{
-		http.csrf().disable().authorizeHttpRequests(auth->auth.requestMatchers("/h2-console/**","/css/**","/js/**").permitAll().requestMatchers("/swagger-ui/**","/select/sender").permitAll().requestMatchers("/select/login").permitAll())
-		.formLogin().loginPage("/select/login").loginProcessingUrl("/select/login").defaultSuccessUrl("/home").permitAll();
+		http.csrf().disable().authorizeHttpRequests(auth->auth.requestMatchers("/h2-console/**","/css/**","/js/**").permitAll().requestMatchers("/swagger-ui/**","/select/sender/**").permitAll().requestMatchers("/select/login/**","/select/register/**").permitAll())
+		.formLogin().loginPage("/select/login").usernameParameter("direct").loginProcessingUrl("/select/login").defaultSuccessUrl("/select/sender").permitAll();
 		return http.build();
 	}
 	@Bean

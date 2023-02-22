@@ -64,7 +64,7 @@ public class myfirstappController {
 			if(senOptional.isEmpty()) {
 				throw new NotFoundException("Cannot find user with given direct/institution please recheck");
 			}
-			if(senOptional.get().getPassword().equals(sender.getPassword())) {
+			if(passwordEncoder.matches(sender.getPassword(), senOptional.get().getPassword())) {
 				sender=senOptional.get();
 			}
 		}
@@ -80,6 +80,21 @@ public class myfirstappController {
 		return new ResponseEntity<>(sender,HttpStatus.ACCEPTED);
 	}
 	
+	
+	@PostMapping("/register")
+	@ResponseBody
+	public ResponseEntity<Sender> helloregintity(@ModelAttribute("sender") Sender sender){
+		Optional<Sender> checkOptional = senderRepository.findByEmail(sender.getEmail());
+		sender.setPassword(passwordEncoder.encode(sender.getPassword()));
+		if(checkOptional.isPresent()) {
+			throw new DataIntegrityViolationException("Account with that email already exists , Please use different email or TRY TO LOGIN!!");
+		}
+		senderRepository.save(sender);
+		return new ResponseEntity<>(sender,HttpStatus.OK);
+		
+	}
+	
+	
 	@GetMapping("/sender")
 	@ResponseBody
 	public List<Sender> getall(){
@@ -88,12 +103,12 @@ public class myfirstappController {
 		return list;
 	}
 	
-	@GetMapping("/sender/{id}")
+	@GetMapping("/sender/{direct}")
 	@ResponseBody
-	public EntityModel<Sender> reteivesender(@PathVariable(name = "id") long id){
-		Optional<Sender> sender = senderRepository.findById(id);
+	public EntityModel<Sender> reteivesender(@PathVariable(name = "direct") String direct){
+		Optional<Sender> sender = senderRepository.findByDirect(direct);
 		if(sender.isEmpty())
-			throw new NotFoundException("No such user with id: "+id);
+			throw new NotFoundException("No such user with id: "+direct);
 
 		EntityModel<Sender> entityModel = EntityModel.of(sender.get());
 		WebMvcLinkBuilder linkBuilder = linkTo(methodOn(this.getClass()).getall());

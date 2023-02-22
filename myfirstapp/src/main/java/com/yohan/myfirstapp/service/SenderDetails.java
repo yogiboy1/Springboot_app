@@ -30,7 +30,7 @@ public class SenderDetails implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+		Collection <GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
         grantedAuthorityList.add(new SimpleGrantedAuthority("DB_ADMIN"));
 		return grantedAuthorityList;
 	}

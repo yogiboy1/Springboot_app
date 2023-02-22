@@ -12,7 +12,7 @@
 <div class="container right-panel-active">
 	<!-- Sign Up -->
 	<div class="container__form container--signup">
-		<form action="#" th:action="@{/select/login}" th:object="${sender}" method="post"  class="form" id="form2">
+		<form action="#" th:action="@{/select/register}" th:object="${sender}" method="post"  class="form" id="form2">
 		 <h2 class="form__title">Sign up</h2>
         <input type="text" th:field="*{email}" placeholder="Email" class="input" />
         <input type="text" th:field="*{direct}" placeholder="Direct-Address" class="input" />
